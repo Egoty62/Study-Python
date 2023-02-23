@@ -1,0 +1,26 @@
+from notebook import Note
+from notebook import Notebook
+
+a = Note()
+a.write_note("지난 여름 바닷가")
+a.write_note("너와 나 단둘이")
+a.write_note("파도에 취해서 노래하며")
+a.write_note("같은 꿈을 꾸었지")
+a.write_note("다시 여기 바닷가")
+a.write_note("이제는 말하고 싶어")
+a.write_note("니가 있었기에 내가 더욱 빛나")
+a.write_note("별이 되었다고")
+a.write_note("시간의 강을 건너")
+a.remove_behind_word("되었다고")
+a.change_word('니가', '네가')
+
+song_lyrics = Notebook("lyrics")
+song_lyrics.add_note(a)
+b = Note("asdfasdf")
+song_lyrics.add_note(b, 2)
+song_lyrics.add_note(b, 3)
+song_lyrics.add_note(a)
+print(song_lyrics)
+song_lyrics.read_page(4)
+song_lyrics.remove_page(5)
+print(song_lyrics)
