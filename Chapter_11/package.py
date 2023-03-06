@@ -35,3 +35,38 @@ series.series_test()
         # 거의 모든 라이브러리에 있음
     # __init__ 파일은 패키지 개발자, 설치 시 확인해야 할 내용 등 메타데이터라 할 수 있는 내용을 담음
     # 일반적으로 이 파일에는 해당 패키지가 포함된 모듈에 관한 정보가 있음
+
+
+# ==========================================================================================================================================
+    # 메인 __init__에 아래 코드 추가
+        # import analysis
+        # import crawling
+        # import database
+
+        # __all__ = ['analysis', 'crawling', 'database']
+            # 이 코드를 메인 __init__에 추가했더니 line 25, 26이 실행이 안 됐음
+                # ModuleNotFoundError: No module named 'analysis'
+                    # 해답 : 메인 init 파일은 roboadviser 디렉터리 안에 있고, 현재 이 package파일은 roboadviser의 상위 디렉터리에 있음
+                        # package의 동일 경로에는 analysis, crawling, database 모듈이 없지만, init파일에서는 동일 경로에 있는 모듈을 import하라고 나옴
+                            # 그 결과 ModuleNotFoundError가 일어남
+                                # 해결 방법은 메인 init파일에 import 세 줄을 'import roboadviser.analysis'와 같은 방식으로 절대참조를 하면 됨
+                                # from . import analysis와 같이 '현재 디렉터리'에서 찾으라는 명령을 해도 됨
+                                # from .analysis import series처럼 '현재 디렉터리'에서 찾으라는 상대참조를 해도 됨
+                                    # 다만 이렇게 하면 메인 init 파일 자체에서는 컴파일이 안 됨
+                                        # 종속 파일이 되는 듯 함
+# ==========================================================================================================================================
+
+    # 하위의 __init__에도 이와 같이 import, __all__을 사용하여 각 패키지에 포함된 모듈명을 모두 작성
+        # 패키지로 표시하기 위해 꼭 해야하는 작업, 패키지별로 모두 처리해야 함
+
+# 4단계 : __main__.py 파일 만들기
+    # 패키지를 한 번에 사용하기 위해 roboadviser 디렉터리에 __main__.py 파일 생성
+        # 패키지 자체를 실행하기 위해 생성
+        # 기본적으로 호출해야 하는 여러 모듈을 from, import로 호출
+            # 후에 'if __name__ == "__main__"'구문 아래에 실제 실행코드 작성
+                # main.py에서만 실제 코드가 잘 작동되는지 테스트 가능
+
+# 5단계 : 실행하기 (패키지 이름만으로 호출하기)
+    # 모든 코드를 작성한 후, 해당 패키지의 최상위 디렉터리에서 'python 패키지명'을 입력하여 실행
+        # 여기선 roboadviser의 상위 디렉터리에서 'python roboadviser'를 입력하여 실행
+            # roboadviser 디렉터리에서 패키지를 실행하면 오류 발생
